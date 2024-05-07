@@ -1,6 +1,13 @@
 import fastify from "fastify";
 import { itemsRoutes } from "./http/controllers/items/route";
+import path from "node:path";
 
 export const app = fastify()
+
+
+app.register(require('@fastify/static'), {
+  root: path.resolve(__dirname, '..', 'uploads'),
+  prefix: '/uploads/'
+})
 
 app.register(itemsRoutes)
