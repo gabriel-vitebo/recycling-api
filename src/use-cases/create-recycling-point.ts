@@ -12,7 +12,6 @@ interface CreateRecyclingPointUseCaseRequest {
   longitude: number,
   city: string,
   uf: string,
-  items: string[]
 
 }
 

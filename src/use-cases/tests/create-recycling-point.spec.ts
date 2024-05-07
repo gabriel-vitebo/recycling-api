@@ -21,7 +21,6 @@ describe('Fetch all Items Use Case', () => {
       latitude: -12.56454,
       longitude: -77.5465,
       whatsapp: '5465521',
-      items: ['1', '2', '6']
     })
 
     await expect(recyclingPoint.id).toEqual(expect.any(String))
