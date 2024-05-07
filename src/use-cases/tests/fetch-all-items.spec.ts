@@ -20,22 +20,22 @@ describe('Fetch all Items Use Case', () => {
 
     expect(items).toEqual([
       expect.objectContaining(
-        { title: 'Lâmpadas', image_url: `http://localhost:3333/uploads/lampadas.svg` },
+        { id: '1', title: 'Lâmpadas', image_url: `http://localhost:3333/uploads/lampadas.svg` },
       ),
       expect.objectContaining(
-        { title: 'Pilhas e Baterias', image_url: `http://localhost:3333/uploads/baterias.svg` },
+        { id: '2', title: 'Pilhas e Baterias', image_url: `http://localhost:3333/uploads/baterias.svg` },
       ),
       expect.objectContaining(
-        { title: 'Papéis e Papelão', image_url: `http://localhost:3333/uploads/papeis-papelao.svg` },
+        { id: '3', title: 'Papéis e Papelão', image_url: `http://localhost:3333/uploads/papeis-papelao.svg` },
       ),
       expect.objectContaining(
-        { title: 'Resíduos Eletrônicos', image_url: `http://localhost:3333/uploads/eletronicos.svg` },
+        { id: '4', title: 'Resíduos Eletrônicos', image_url: `http://localhost:3333/uploads/eletronicos.svg` },
       ),
       expect.objectContaining(
-        { title: 'Resíduos Orgânicos', image_url: `http://localhost:3333/uploads/organicos.svg` },
+        { id: '5', title: 'Resíduos Orgânicos', image_url: `http://localhost:3333/uploads/organicos.svg` },
       ),
       expect.objectContaining(
-        { title: 'Óleo de Cozinha', image_url: `http://localhost:3333/uploads/oleo.svg` },
+        { id: '6', title: 'Óleo de Cozinha', image_url: `http://localhost:3333/uploads/oleo.svg` },
       ),
     ])
   })
