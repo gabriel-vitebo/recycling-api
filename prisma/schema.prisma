@@ -32,6 +32,7 @@ model Item {
   id         String       @id @default(uuid())
   image      String
   title      String
+  image_url  String
   Point_item Point_item[]
 
   @@map("items")

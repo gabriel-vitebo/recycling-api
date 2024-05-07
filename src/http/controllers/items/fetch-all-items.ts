@@ -12,11 +12,12 @@ export async function fetchAllItems(
 
   const { page } = fetchAllItemsSchema.parse(request.query)
 
+
   const fetchAllItemsUseCase = makeFetchAllItemsUseCase()
 
-  const { items } = await fetchAllItemsUseCase.execute({
+  const { serializedItems } = await fetchAllItemsUseCase.execute({
     page,
   })
 
-  return reply.status(200).send({ items })
+  return reply.status(200).send({ serializedItems })
 }

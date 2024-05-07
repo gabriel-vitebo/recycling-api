@@ -1,12 +1,14 @@
 import { ItemsRepository } from "@/repositories/items-repository";
-import { Item } from "@prisma/client";
 
 interface FetchAllItemsUseCaseRequest {
   page: number
 }
 
 interface FetchAllItemsUseCaseResponse {
-  items: Item[]
+  serializedItems: {
+    title: string;
+    image_url: string;
+  }[]
 }
 
 export class FetchAllItemsUseCase {
@@ -25,7 +27,6 @@ export class FetchAllItemsUseCase {
         image_url: `http://localhost:3333/uploads/${item.image}`
       }
     })
-
 
     return { serializedItems }
   }
