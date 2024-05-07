@@ -19,8 +19,15 @@ export class FetchAllItemsUseCase {
   }: FetchAllItemsUseCaseRequest): Promise<FetchAllItemsUseCaseResponse> {
     const items = await this.itemsRepository.fetchAllItems(page)
 
+    const serializedItems = items.map(item => {
+      return {
+        title: item.title,
+        image_url: `http://localhost:3333/uploads/${item.image}`
+      }
+    })
 
-    return { items }
+
+    return { serializedItems }
   }
 
 }
