@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { ItemsRepository } from "../items-repository";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export class PrismaItemsRepository implements ItemsRepository {
   async fetchAllItems(page: number) {
@@ -9,5 +10,16 @@ export class PrismaItemsRepository implements ItemsRepository {
     })
 
     return items
+  }
+
+  async createItemPointAssociation(itemId: string, point: { id: string; image: string; name: string; email: string; whatsapp: string; latitude: Decimal; longitude: Decimal; city: string; uf: string; }) {
+    const createdAssociation = await prisma.point_item.create({
+      data: {
+        itemId: itemId,
+        recyclingPointId: point.id
+      }
+    });
+
+    return createdAssociation;
   }
 }
