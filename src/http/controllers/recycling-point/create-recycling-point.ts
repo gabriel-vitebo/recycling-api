@@ -1,5 +1,5 @@
+import { MakeCreateItemPointAssociationUseCase } from "@/use-cases/factories/make-create-item-point-association-use-case";
 import { makeCreateRecyclingPointUseCase } from "@/use-cases/factories/make-create-recycling-point";
-import { makeFetchAllItemsUseCase } from "@/use-cases/factories/make-fetch-all-items-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -20,12 +20,23 @@ export async function createRecyclingPoints(
     }),
     city: z.string(),
     uf: z.string().min(2),
+    items: z.string().array()
   })
 
-  const { name, image, email, whatsapp, longitude, latitude, city, uf } = createRecyclingPointSchema.parse(request.body)
+  const {
+    name,
+    image,
+    email,
+    whatsapp,
+    longitude,
+    latitude,
+    city,
+    uf,
+    items } = createRecyclingPointSchema.parse(request.body)
 
 
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
+  const createItemPointAssociationUseCase = MakeCreateItemPointAssociationUseCase()
 
   const { recyclingPoint } = await createRecyclingPointsUseCase.execute({
     name,
@@ -38,5 +49,13 @@ export async function createRecyclingPoints(
     uf,
   })
 
-  return reply.status(201).send({ recyclingPoint })
+  for (let itemId of items) {
+    console.log('entrou')
+    await createItemPointAssociationUseCase.execute({
+      itemId,
+      point: recyclingPoint
+    })
+  }
+
+  return reply.status(201).send()
 }
