@@ -36,7 +36,7 @@ export class CreateRecyclingPointUseCase {
   }: CreateRecyclingPointUseCaseRequest): Promise<CreateRecyclingPointUseCaseResponse> {
     const recyclingPoint = await this.recyclingPointsRepository.createCollectionPoints({
       name,
-      image: 'fake-image.svg',
+      image,
       email,
       whatsapp,
       latitude,
