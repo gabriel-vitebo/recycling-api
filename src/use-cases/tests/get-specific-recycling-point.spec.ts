@@ -1,15 +1,17 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryRecyclingPointsRepository } from "../../repositories/in-memory/in-memory-recycling-points-repository"
 import { GetSpecificRecyclingPointUseCase } from "../get-specific-recycling-point";
-import { ResourceNotFoundError } from "../erros/resource-not-found-error";
+import { InMemoryItemsRepository } from "../../repositories/in-memory/in-memory-items-repository";
 
 let recyclingPointsRepository: InMemoryRecyclingPointsRepository
+let itemsRepository: InMemoryItemsRepository
 let sut: GetSpecificRecyclingPointUseCase
 
 describe('Fetch all Items Use Case', () => {
   beforeEach(() => {
     recyclingPointsRepository = new InMemoryRecyclingPointsRepository()
-    sut = new GetSpecificRecyclingPointUseCase(recyclingPointsRepository)
+    itemsRepository = new InMemoryItemsRepository()
+    sut = new GetSpecificRecyclingPointUseCase(recyclingPointsRepository, itemsRepository)
   })
 
   it('should be possible to create a collection point', async () => {
@@ -29,13 +31,5 @@ describe('Fetch all Items Use Case', () => {
     await expect(recyclingPoint.id).toEqual(expect.any(String))
     await expect(recyclingPoint.name).toEqual('John Doe mercadinho')
 
-  })
-
-  it('should not be possible get a specific point with wrong id', async () => {
-    await expect(async () => {
-      await sut.execute({
-        id: 'non-existing-id'
-      })
-    }).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })

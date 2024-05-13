@@ -43,4 +43,12 @@ export class InMemoryItemsRepository implements ItemsRepository {
 
     return association
   }
+
+  async fetchRelatedItems(recyclingPointId: string) {
+    const items = this.items.filter((item) => {
+      item.id === recyclingPointId
+    })
+
+    return items
+  }
 }

@@ -27,4 +27,22 @@ export class PrismaItemsRepository implements ItemsRepository {
 
     return createdAssociation;
   }
+
+  async fetchRelatedItems(recyclingPointId: string) {
+    const items = await prisma.item.findMany({
+      where: {
+        Point_item: {
+          some: {
+            recyclingPointId
+          }
+        }
+      },
+      select: {
+        title: true,
+        image_url: true
+      }
+    });
+
+    return items
+  }
 }

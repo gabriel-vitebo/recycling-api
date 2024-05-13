@@ -1,6 +1,7 @@
 import { RecyclingPointsRepository } from "@/repositories/recycling-points-repository";
-import { RecyclingPoint } from "@prisma/client";
+import { Item, RecyclingPoint } from "@prisma/client";
 import { ResourceNotFoundError } from "./erros/resource-not-found-error";
+import { ItemsRepository } from "@/repositories/items-repository";
 
 interface GetSpecificRecyclingPointUseCaseRequest {
   id: string
@@ -8,11 +9,13 @@ interface GetSpecificRecyclingPointUseCaseRequest {
 
 interface GetSpecificRecyclingPointUseCaseResponse {
   recyclingPoint: RecyclingPoint
+  items: Array<{ title: string; image_url: string }>
 }
 
 export class GetSpecificRecyclingPointUseCase {
   constructor(
-    private recyclingPointsRepository: RecyclingPointsRepository
+    private recyclingPointsRepository: RecyclingPointsRepository,
+    private itemsRepository: ItemsRepository
   ) { }
 
   async execute({
@@ -25,7 +28,9 @@ export class GetSpecificRecyclingPointUseCase {
       throw new ResourceNotFoundError()
     }
 
-    return { recyclingPoint }
+    const items = await this.itemsRepository.fetchRelatedItems(id)
+
+    return { recyclingPoint, items }
   }
 
 }
