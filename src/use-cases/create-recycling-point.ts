@@ -1,7 +1,6 @@
+import { ItemsRepository } from "@/repositories/items-repository";
 import { RecyclingPointsRepository } from "@/repositories/recycling-points-repository";
 import { RecyclingPoint } from "@prisma/client";
-
-
 
 interface CreateRecyclingPointUseCaseRequest {
   name: string,
@@ -12,7 +11,7 @@ interface CreateRecyclingPointUseCaseRequest {
   longitude: number,
   city: string,
   uf: string,
-
+  itemsIds: string[]
 }
 
 interface CreateRecyclingPointUseCaseResponse {
@@ -21,7 +20,9 @@ interface CreateRecyclingPointUseCaseResponse {
 
 export class CreateRecyclingPointUseCase {
   constructor(
-    private recyclingPointsRepository: RecyclingPointsRepository
+    private recyclingPointsRepository: RecyclingPointsRepository,
+    private itemsRepository: ItemsRepository
+
   ) { }
 
   async execute({
@@ -32,8 +33,17 @@ export class CreateRecyclingPointUseCase {
     latitude,
     longitude,
     city,
-    uf
+    uf,
+    itemsIds
   }: CreateRecyclingPointUseCaseRequest): Promise<CreateRecyclingPointUseCaseResponse> {
+
+    const validItemIds = await this.itemsRepository.fetchAllItemsIds()
+    for (const itemId of itemsIds) {
+      if (!validItemIds.includes(itemId)) {
+        throw new Error(`Invalid itemId: ${itemId}`)
+      }
+    }
+
     const recyclingPoint = await this.recyclingPointsRepository.createCollectionPoints({
       name,
       image,
@@ -44,6 +54,13 @@ export class CreateRecyclingPointUseCase {
       city,
       uf
     })
+
+    for (let itemId of itemsIds) {
+      await this.itemsRepository.createItemPointAssociation(
+        itemId,
+        recyclingPoint
+      )
+    }
 
     return { recyclingPoint }
   }
