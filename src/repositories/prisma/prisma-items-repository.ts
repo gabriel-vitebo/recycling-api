@@ -12,10 +12,10 @@ export class PrismaItemsRepository implements ItemsRepository {
     return items
   }
 
-  async createItemPointAssociation(itemId: string, point: { id: string; image: string; name: string; email: string; whatsapp: string; latitude: Decimal; longitude: Decimal; city: string; uf: string; }) {
+  async createItemPointAssociation(itemId: string, point: { id: string }) {
     const createdAssociation = await prisma.point_item.create({
       data: {
-        itemId: itemId,
+        itemId,
         recyclingPointId: point.id
       }
     });

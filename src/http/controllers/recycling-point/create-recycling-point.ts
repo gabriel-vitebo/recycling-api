@@ -20,7 +20,7 @@ export async function createRecyclingPoints(
     }),
     city: z.string(),
     uf: z.string().min(2),
-    items: z.string().array()
+    itemsIds: z.string().array()
   })
 
   const {
@@ -32,13 +32,12 @@ export async function createRecyclingPoints(
     latitude,
     city,
     uf,
-    items } = createRecyclingPointSchema.parse(request.body)
+    itemsIds } = createRecyclingPointSchema.parse(request.body)
 
 
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
-  const createItemPointAssociationUseCase = MakeCreateItemPointAssociationUseCase()
 
-  const { recyclingPoint } = await createRecyclingPointsUseCase.execute({
+  const data = await createRecyclingPointsUseCase.execute({
     name,
     image,
     email,
@@ -47,17 +46,10 @@ export async function createRecyclingPoints(
     longitude,
     city,
     uf,
+    itemsIds
   })
 
-  for (let itemId of items) {
-    console.log('entrou')
-    await createItemPointAssociationUseCase.execute({
-      itemId,
-      point: recyclingPoint
-    })
-  }
-
-  return reply.status(201).send()
+  return reply.status(201).send({ data })
 }
 
 //1:31
