@@ -10,4 +10,14 @@ export class PrismaRecyclingPointsRepository implements RecyclingPointsRepositor
 
     return collectionPoint
   }
+
+  async getSpecificRecyclingPoint(id: string) {
+    const recyclingPoint = await prisma.recyclingPoint.findUnique({
+      where: {
+        id
+      }
+    })
+
+    return recyclingPoint || null
+  }
 }

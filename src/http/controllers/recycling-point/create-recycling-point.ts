@@ -36,7 +36,7 @@ export async function createRecyclingPoints(
 
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
 
-  const data = await createRecyclingPointsUseCase.execute({
+  const recyclingPoint = await createRecyclingPointsUseCase.execute({
     name,
     image,
     email,
@@ -48,7 +48,5 @@ export async function createRecyclingPoints(
     itemsIds
   })
 
-  return reply.status(201).send()
+  return reply.status(201).send(recyclingPoint)
 }
-
-//1:31

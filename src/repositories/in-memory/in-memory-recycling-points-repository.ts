@@ -22,4 +22,10 @@ export class InMemoryRecyclingPointsRepository implements RecyclingPointsReposit
 
     return recyclingPoint
   }
+
+  async getSpecificRecyclingPoint(id: string) {
+    const recyclingPoint = this.items.find((item) => item.id === id)
+
+    return recyclingPoint || null
+  }
 }
