@@ -12,6 +12,11 @@ export class PrismaItemsRepository implements ItemsRepository {
     return items
   }
 
+  async fetchAllItemsIds() {
+    const allItems = await prisma.item.findMany()
+    return allItems.map((item) => item.id)
+  }
+
   async createItemPointAssociation(itemId: string, point: { id: string }) {
     const createdAssociation = await prisma.point_item.create({
       data: {

@@ -36,6 +36,14 @@ export class CreateRecyclingPointUseCase {
     uf,
     itemsIds
   }: CreateRecyclingPointUseCaseRequest): Promise<CreateRecyclingPointUseCaseResponse> {
+
+    const validItemIds = await this.itemsRepository.fetchAllItemsIds()
+    for (const itemId of itemsIds) {
+      if (!validItemIds.includes(itemId)) {
+        throw new Error(`Invalid itemId: ${itemId}`)
+      }
+    }
+
     const recyclingPoint = await this.recyclingPointsRepository.createCollectionPoints({
       name,
       image,
