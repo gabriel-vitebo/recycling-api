@@ -1,4 +1,4 @@
-import { MakeCreateItemPointAssociationUseCase } from "@/use-cases/factories/make-create-item-point-association-use-case";
+import { MakeCreateItemPointAssociationUseCase } from "../../../use-cases/factories/make-create-item-point-association-use-case"
 import { makeCreateRecyclingPointUseCase } from "@/use-cases/factories/make-create-recycling-point";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -59,3 +59,5 @@ export async function createRecyclingPoints(
 
   return reply.status(201).send()
 }
+
+//1:31
