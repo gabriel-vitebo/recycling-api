@@ -20,4 +20,30 @@ export class PrismaRecyclingPointsRepository implements RecyclingPointsRepositor
 
     return recyclingPoint || null
   }
+
+  async fetchRecyclingPoint(city: string, uf: string, items: string[]) {
+    const recyclingPoint = await prisma.recyclingPoint.findMany({
+      where: {
+        AND: [
+          {
+            city,
+            uf
+          },
+          {
+            Point_item: {
+              some: {
+                items: {
+                  title: {
+                    in: items
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+
+    })
+    return recyclingPoint
+  }
 }

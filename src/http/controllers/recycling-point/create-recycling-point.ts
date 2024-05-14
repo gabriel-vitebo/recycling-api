@@ -48,5 +48,7 @@ export async function createRecyclingPoints(
     itemsIds
   })
 
+  console.log(recyclingPoint)
+
   return reply.status(201).send(recyclingPoint)
 }
