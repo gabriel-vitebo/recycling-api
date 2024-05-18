@@ -2,22 +2,23 @@ import multer from 'fastify-multer'
 import path from 'node:path'
 import { randomBytes } from 'node:crypto'
 
-const uploadPath = path.resolve(__dirname, '..', '..', 'uploads');
+const TMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp")
+const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, "uploads")
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadPath);
-  },
-  filename(req, file, cb) {
-    const hash = randomBytes(6).toString('hex')
-    const fileName = `${hash}-${file.originalname}`
+const MULTER = {
+  storage: multer.diskStorage({
+    destination: TMP_FOLDER,
+    filename(request, file, callback) {
+      const fileHash = randomBytes(10).toString("hex")
+      const fileName = `${fileHash}-${file.originalname}`
 
-    cb(null, fileName)
-  }
-})
+      return callback(null, fileName)
+    },
+  }),
+}
 
-const multerConfig = {
-  storage: storage,
-};
-
-export default multerConfig;
+export const multerConfig = {
+  TMP_FOLDER,
+  UPLOADS_FOLDER,
+  MULTER,
+}

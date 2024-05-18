@@ -2,11 +2,11 @@ import fastify from "fastify";
 import { itemsRoutes } from "./http/controllers/items/route";
 import path from "node:path";
 import { recyclingPointsRoutes } from "./http/controllers/recycling-point/route";
-import fastifyMultipart from 'fastify-multipart'
+import multipart from '@fastify/multipart'
 
 export const app = fastify()
 
-app.register(fastifyMultipart)
+app.register(multipart)
 
 app.register(require('@fastify/static'), {
   root: path.resolve(__dirname, '..', 'uploads'),
