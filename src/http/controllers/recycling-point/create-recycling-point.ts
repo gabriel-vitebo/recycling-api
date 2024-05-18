@@ -40,18 +40,17 @@ export async function createRecyclingPoints(
 
   const diskStorage = new DiskStorage()
 
-  const fileName = request.file.filename;
-  console.log(fileName);
+  const fileName: string = request.file.filename;
 
   const pointRecyclingFileName = await diskStorage.saveFile(fileName)
 
-  console.log({ pointRecyclingFileName })
+  console.log(pointRecyclingFileName)
 
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
 
   const recyclingPoint = await createRecyclingPointsUseCase.execute({
     name,
-    image: pointRecyclingFileName,
+    image: `http://localhost:3333/uploads/${pointRecyclingFileName}`,
     email,
     whatsapp,
     latitude,
