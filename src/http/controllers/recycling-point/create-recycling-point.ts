@@ -1,6 +1,6 @@
 import { makeCreateRecyclingPointUseCase } from "@/use-cases/factories/make-create-recycling-point";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
+import { unknown, z } from "zod";
 import DiskStorage from "@/providers/DiskStorage";
 
 export async function createRecyclingPoints(
@@ -34,7 +34,8 @@ export async function createRecyclingPoints(
 
   const diskStorage = new DiskStorage()
 
-  const fileName: string = request.file.filename;
+  const file = request.file as unknown
+  const fileName: string = (file as { filename: string }).filename;
 
   const pointRecyclingFileName = await diskStorage.saveFile(fileName)
 
