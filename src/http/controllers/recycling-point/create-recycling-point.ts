@@ -39,8 +39,6 @@ export async function createRecyclingPoints(
 
   const pointRecyclingFileName = await diskStorage.saveFile(fileName)
 
-  console.log(pointRecyclingFileName)
-
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
 
   const recyclingPoint = await createRecyclingPointsUseCase.execute({
