@@ -1,6 +1,7 @@
 import { makeCreateRecyclingPointUseCase } from "@/use-cases/factories/make-create-recycling-point";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import DiskStorage from "@/providers/DiskStorage";
 
 export async function createRecyclingPoints(
   request: FastifyRequest,
@@ -8,23 +9,21 @@ export async function createRecyclingPoints(
 ) {
   const createRecyclingPointSchema = z.object({
     name: z.string(),
-    image: z.string(),
     email: z.string(),
     whatsapp: z.string(),
-    latitude: z.number().refine((value) => {
+    latitude: z.coerce.number().refine((value) => {
       return Math.abs(value) <= 90
     }),
-    longitude: z.number().refine((value) => {
+    longitude: z.coerce.number().refine((value) => {
       return Math.abs(value) <= 180
     }),
     city: z.string(),
     uf: z.string().min(2),
-    itemsIds: z.string().array()
+    itemsIds: z.array(z.string())
   })
 
   const {
     name,
-    image,
     email,
     whatsapp,
     longitude,
@@ -33,12 +32,19 @@ export async function createRecyclingPoints(
     uf,
     itemsIds } = createRecyclingPointSchema.parse(request.body)
 
+  const diskStorage = new DiskStorage()
+
+  const fileName: string = request.file.filename;
+
+  const pointRecyclingFileName = await diskStorage.saveFile(fileName)
+
+  console.log(pointRecyclingFileName)
 
   const createRecyclingPointsUseCase = makeCreateRecyclingPointUseCase()
 
   const recyclingPoint = await createRecyclingPointsUseCase.execute({
     name,
-    image,
+    image: `http://localhost:3333/uploads/${pointRecyclingFileName}`,
     email,
     whatsapp,
     latitude,
