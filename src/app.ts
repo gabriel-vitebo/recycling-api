@@ -8,6 +8,10 @@ export const app = fastify()
 
 app.register(multipart)
 
+console.log({
+  root: path.resolve(__dirname, '..', 'tmp', 'uploads'),
+})
+
 app.register(require('@fastify/static'), {
   root: path.resolve(__dirname, '..', 'tmp', 'uploads'),
   prefix: '/uploads/'
