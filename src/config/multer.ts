@@ -1,8 +1,11 @@
 import multer from 'fastify-multer'
 import path from 'node:path'
 import { randomBytes } from 'node:crypto'
+import { env } from '@/env'
 
-const TMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp")
+const TMP_FOLDER = env.APP_MODE === 'dev'
+  ? path.resolve(__dirname, "..", "..", "tmp")
+  : path.resolve(__dirname, "..", "tmp")
 const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, "uploads")
 
 const MULTER = {
