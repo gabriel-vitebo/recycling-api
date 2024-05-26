@@ -2,6 +2,7 @@ import { makeCreateRecyclingPointUseCase } from "@/use-cases/factories/make-crea
 import { FastifyReply, FastifyRequest } from "fastify";
 import { unknown, z } from "zod";
 import DiskStorage from "@/providers/DiskStorage";
+import { env } from "../../../env";
 
 export async function createRecyclingPoints(
   request: FastifyRequest,
@@ -43,7 +44,7 @@ export async function createRecyclingPoints(
 
   const recyclingPoint = await createRecyclingPointsUseCase.execute({
     name,
-    image: `http://localhost:3333/uploads/${pointRecyclingFileName}`,
+    image: `${env.UPLOADS_BASE_URL}/${pointRecyclingFileName}`,
     email,
     whatsapp,
     latitude,
@@ -52,8 +53,6 @@ export async function createRecyclingPoints(
     uf,
     itemsIds
   })
-
-  console.log(recyclingPoint)
 
   return reply.status(201).send(recyclingPoint)
 }

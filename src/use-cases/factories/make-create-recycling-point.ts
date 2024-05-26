@@ -2,7 +2,7 @@ import { PrismaItemsRepository } from "@/repositories/prisma/prisma-items-reposi
 import { CreateRecyclingPointUseCase } from "../create-recycling-point";
 import { PrismaRecyclingPointsRepository } from "@/repositories/prisma/prisma-recycling-points-repository";
 
-export function makeCreateRecyclingPointUseCase() {
+export function makeCreateRecyclingPointUseCase(): CreateRecyclingPointUseCase {
   const primaRecyclingPointRepository = new PrismaRecyclingPointsRepository()
   const prismaItemsRepository = new PrismaItemsRepository()
   const useCase = new CreateRecyclingPointUseCase(
