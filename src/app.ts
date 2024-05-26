@@ -10,6 +10,7 @@ app.register(multipart)
 
 console.log({
   root: path.resolve(__dirname, '..', 'tmp', 'uploads'),
+  dirname: __dirname
 })
 
 app.register(require('@fastify/static'), {
