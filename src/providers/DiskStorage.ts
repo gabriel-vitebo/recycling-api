@@ -4,8 +4,10 @@ import { multerConfig } from '../config/multer'
 
 class DiskStorage {
   async saveFile(file: string) {
-    console.log('Diretório de destino:', file);
-    console.log('Nome do arquivo:', file);
+    console.log('Diretório de destino:', {
+      to: path.resolve(multerConfig.TMP_FOLDER, file),
+      from: path.resolve(multerConfig.UPLOADS_FOLDER, file)
+    });
     await fs.promises.rename(
       path.resolve(multerConfig.TMP_FOLDER, file),
       path.resolve(multerConfig.UPLOADS_FOLDER, file)
