@@ -18,9 +18,7 @@ const MULTER = {
       let extension = "";
       if (match) {
         extension = match[1];
-        console.log(extension);
       }
-      console.log(typeof (fileNameWithoutSpace))
       const fileHash = randomBytes(10).toString("hex")
       const fileName = `${fileHash}-${fileNameWithoutSpace}.${extension}`
 
